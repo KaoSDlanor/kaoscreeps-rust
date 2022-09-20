@@ -1,0 +1,32 @@
+default_deploy_mode = "upload"
+
+[upload]
+auth_token = "aaf8ccc0-eb0e-4fe9-80cb-b09b6297a690"
+branch = "default"
+# username = "your username or email"
+# password = "your password"
+# ptr = false
+# hostname = "screeps.com"
+# ssl = true
+# port = 443
+
+[sim]
+auth_token = "aaf8ccc0-eb0e-4fe9-80cb-b09b6297a690"
+branch = "default"
+# username = "your username or email"
+# password = "your password"
+# ptr = false
+# hostname = "screeps.com"
+# ssl = true
+# port = 443
+
+# [copy]
+# # On Windows, use forward slashes instead of backslashes for the destination
+# destination = "your copy destination"
+# prune = false
+# branch = "default"
+
+# [build]
+# use absolute file path to get out of "target/"
+# ouptut_js_file = "main.js"
+# output_wasm_file = "compiled.wasm"
