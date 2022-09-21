@@ -2,7 +2,7 @@ use screeps::{SharedCreepProperties, HasId, RawObjectId, Room, find, Source, Par
 use serde::{Serialize, Deserialize};
 
 use crate::console;
-use super::{spawn_group::SpawnGroup, Hive, GetCreepError};
+use super::{Hive, GetCreepError};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MineGroup {
