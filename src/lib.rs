@@ -15,7 +15,6 @@ pub fn game_loop() {
 
   mem.hive.run();
 
-  console::info(format!("{:?}",&mem));
   helpers::memory::save(&mem);
 
   *mem_ref = Some(mem);

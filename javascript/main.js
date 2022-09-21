@@ -7,6 +7,7 @@ const kaoScreeps = {
   },
 
   loop : () => {
+    console.log(`GAME TICK ${Game.time}`)
     try {
       global.Memory = { spawns : {}, creeps : {} };
       if (kaoScreeps.wasm == null) {
