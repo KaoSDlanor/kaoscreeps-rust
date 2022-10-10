@@ -11,10 +11,14 @@ pub struct Memory {
 impl Memory {
   pub fn new() -> Memory {
     Memory {
-      version: MEM_VERSION.clone(),
+      version: MEM_VERSION,
 
       hive : crate::hive::Hive::new(screeps::game::rooms().values().next().unwrap()),
     }
+  }
+
+  pub fn run(&mut self) {
+    self.hive.run()
   }
 }
 

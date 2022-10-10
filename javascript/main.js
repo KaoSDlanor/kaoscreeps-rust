@@ -11,8 +11,10 @@ const kaoScreeps = {
     try {
       global.Memory = { spawns : {}, creeps : {} };
       if (kaoScreeps.wasm == null) {
+        kaoScreeps.log('Loading code');
         kaoScreeps.wasm = require('kaoscreeps-rust');
         kaoScreeps.wasm.initialize_instance();
+        kaoScreeps.wasm.setup();
       }
       kaoScreeps.wasm.game_loop();
     } catch(err) {

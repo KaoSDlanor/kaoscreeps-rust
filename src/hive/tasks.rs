@@ -24,17 +24,17 @@ impl Task {
     match self {
 
       Task::Move(direction) => {
-        match creep.move_direction(direction.clone()) {
+        match creep.move_direction(direction.to_owned()) {
           ReturnCode::Ok => TaskReturn::Complete,
           return_code => TaskReturn::Err(return_code),
         }
       },
 
       Task::Tow(creep_name, direction) => {
-        if let Some(towed) = game::creeps().get(creep_name.clone()) {
+        if let Some(towed) = game::creeps().get(creep_name.to_owned()) {
           match (creep.pull(&towed),towed.move_pulled_by(&creep)) {
             (ReturnCode::Ok,ReturnCode::Ok) => {
-              match creep.move_direction(direction.clone()) {
+              match creep.move_direction(direction.to_owned()) {
                 ReturnCode::Ok => TaskReturn::Complete,
                 return_code => TaskReturn::Err(return_code),
               }
@@ -49,7 +49,7 @@ impl Task {
       },
 
       Task::Harvest(source_id) => {
-        let source = ObjectId::<Source>::from(source_id.clone()).resolve().unwrap();
+        let source = ObjectId::<Source>::from(source_id.to_owned()).resolve().unwrap();
         match creep.harvest(&source) {
           ReturnCode::Ok => TaskReturn::Complete,
           return_code => TaskReturn::Err(return_code),
@@ -107,20 +107,24 @@ impl Tasks {
     let mut completed_creep_names: Vec<String> = vec![];
 
     for (creep_name, task) in self.task_list.iter_mut() {
-      if let Some(creep) = game::creeps().get(creep_name.clone().into()) {
-        match task.run(creep) {
-          TaskReturn::Complete => {
-            completed_creep_names.push(creep_name.clone());
-          },
-          _ => {},
+      match Self::run_task(creep_name, task) {
+        TaskReturn::ProgressMade => {},
+        _ => {
+          completed_creep_names.push(creep_name.to_owned());
         }
-      } else {
-        completed_creep_names.push(creep_name.clone());
       }
     }
 
     for creep_name in completed_creep_names {
       self.task_list.remove(&creep_name);
+    }
+  }
+
+  pub fn run_task(creep_name: &str, task: &mut Task) -> TaskReturn {
+    if let Some(creep) = game::creeps().get(creep_name.to_owned().into()) {
+      task.run(creep)
+    } else {
+      TaskReturn::Err(ReturnCode::NotFound)
     }
   }
 
