@@ -52,11 +52,11 @@ impl MineRoom {
   }
 
   fn tow_to_source(&self, source: Source, harvester: &Creep, hauler: &Creep) -> Result<(),String> {
-    if hauler.pos().is_near_to(&harvester) {
-      match (hauler.pull(&harvester),harvester.move_pulled_by(&hauler)) {
+    if hauler.pos().is_near_to(harvester) {
+      match (hauler.pull(harvester),harvester.move_pulled_by(hauler)) {
         (screeps::ReturnCode::Ok,screeps::ReturnCode::Ok) => {
           if hauler.pos().is_near_to(&source) {
-            match hauler.move_pulled_by(&harvester) {
+            match hauler.move_pulled_by(harvester) {
               screeps::ReturnCode::Ok => Ok(()),
               unexpected => {
                 Err(format!("Creep {:?} unexpected return code when dumping harvester: {:?}", hauler.name(), unexpected))
@@ -95,7 +95,7 @@ impl MineRoom {
   fn haul_energy(&self, harvester: &Creep, hauler: &Creep) -> Result<(),String> {
     let hauler_store = hauler.store();
     if hauler_store.get_free_capacity(Some(ResourceType::Energy)) > 0 {
-      if hauler.pos().is_near_to(&harvester) {
+      if hauler.pos().is_near_to(harvester) {
         // match harvester.transfer(hauler, ResourceType::Energy, None) {
         //   ReturnCode::Ok => Ok(()),
         //   failure_code => Err(format!("Harvester {:?} unexpected return code when transferring energy to hauler: {:?}", harvester.name(), failure_code)),
@@ -137,10 +137,10 @@ impl MineRoom {
 
   fn process_source(&self, source: Source, hive: &mut Hive) -> Result<(),String> {
     let hauler_name = String::from("hauler:") + &String::from(source.raw_id());
-    let hauler_result = hive.get_creep(hauler_name.to_owned(), &self.spawn_room_name, false, Self::get_hauler_body);
+    let hauler_result = hive.get_creep(hauler_name, &self.spawn_room_name, false, Self::get_hauler_body);
 
     let harvester_name = String::from("harvester:") + &String::from(source.raw_id());
-    let harvester = hive.get_creep(harvester_name.to_owned(), &self.spawn_room_name, false, Self::get_harvester_body)?;
+    let harvester = hive.get_creep(harvester_name, &self.spawn_room_name, false, Self::get_harvester_body)?;
 
     if harvester.pos().is_near_to(&source) {
       self.mine_source(source, &harvester)?;

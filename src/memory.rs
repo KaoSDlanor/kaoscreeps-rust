@@ -22,6 +22,12 @@ impl Memory {
   }
 }
 
+impl Default for Memory {
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
 pub fn load() -> Memory {
   let serialized = String::from(screeps::raw_memory::RawMemory::get());
   let memory: Memory = serde_json::from_str(&serialized).unwrap_or_else(|_| Memory::new());

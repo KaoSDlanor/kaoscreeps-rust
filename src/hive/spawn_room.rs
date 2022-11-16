@@ -39,8 +39,8 @@ impl SpawnRoom {
     Self {
       room_name: room.name(),
 
-      spawn_ids: spawns.iter().map(|spawn| spawn.raw_id().into()).collect(),
-      extension_ids: extensions.iter().map(|extension| extension.raw_id().into()).collect(),
+      spawn_ids: spawns.iter().map(|spawn| spawn.raw_id()).collect(),
+      extension_ids: extensions.iter().map(|extension| extension.raw_id()).collect(),
 
       available_spawn_cache: RefCell::new(CachedSpawnList::default()),
     }
@@ -85,7 +85,7 @@ impl SpawnRoom {
     match cache.1.as_ref() {
       Some(available_spawns) => {
         let selected_spawn = available_spawns.borrow_mut().pop();
-        selected_spawn.map(|spawn_id| ObjectId::<StructureSpawn>::from(spawn_id.clone()).resolve()).flatten()
+        selected_spawn.and_then(|spawn_id| ObjectId::<StructureSpawn>::from(spawn_id).resolve())
       },
       None => None,
     }

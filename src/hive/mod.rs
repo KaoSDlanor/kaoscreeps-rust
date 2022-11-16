@@ -71,7 +71,7 @@ impl Hive {
     }
 
     if let Some(creep) = game::creeps().get(creep_name.to_owned()) {
-      if creep.spawning() == false {
+      if !creep.spawning() {
         return Ok(creep);
       } else {
         return Err(GetCreepError::SpawningInProgress);

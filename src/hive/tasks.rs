@@ -74,7 +74,7 @@ impl Task {
             match task.run(creep) {
               TaskReturn::Complete => {
                 task_list.pop_front();
-                if task_list.len() > 0 {
+                if !task_list.is_empty() {
                   TaskReturn::ProgressMade
                 } else {
                   TaskReturn::Complete
@@ -121,7 +121,7 @@ impl Tasks {
   }
 
   pub fn run_task(creep_name: &str, task: &mut Task) -> TaskReturn {
-    if let Some(creep) = game::creeps().get(creep_name.to_owned().into()) {
+    if let Some(creep) = game::creeps().get(creep_name.to_owned()) {
       task.run(creep)
     } else {
       TaskReturn::Err(ReturnCode::NotFound)
@@ -134,5 +134,11 @@ impl Tasks {
 
   pub fn has_task(&self, creep_name: &str) -> bool {
     self.task_list.contains_key(creep_name)
+  }
+}
+
+impl Default for Tasks {
+  fn default() -> Self {
+    Self::new()
   }
 }

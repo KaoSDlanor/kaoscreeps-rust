@@ -10,8 +10,8 @@ pub enum EnergyDropOff {
 impl EnergyDropOff {
   pub fn preload(&self) -> Option<EnergyDropOffLoaded> {
     match self {
-      EnergyDropOff::Spawn(spawn_id) => ObjectId::<StructureSpawn>::from(spawn_id.to_owned()).resolve().map(|spawn| EnergyDropOffLoaded::Spawn(spawn)),
-      EnergyDropOff::Creep(creep_name) => game::creeps().get(creep_name.to_owned()).map(|creep| EnergyDropOffLoaded::Creep(creep)),
+      EnergyDropOff::Spawn(spawn_id) => ObjectId::<StructureSpawn>::from(spawn_id.to_owned()).resolve().map(EnergyDropOffLoaded::Spawn),
+      EnergyDropOff::Creep(creep_name) => game::creeps().get(creep_name.to_owned()).map(EnergyDropOffLoaded::Creep),
     }
   }
 }
